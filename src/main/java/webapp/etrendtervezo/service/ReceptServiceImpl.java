@@ -24,19 +24,19 @@ public class ReceptServiceImpl implements ReceptService{
         Recept recept1 = new Recept();
         recept1.setReceptnev("teszt");
         recept1.setAlapanyag("protein");
-        recept1.setArany(30);
+        recept1.setArany(55);
         recept1.setKategoria("reggeli");
 
         Recept recept2 = new Recept();
         recept2.setReceptnev("teszt");
         recept2.setAlapanyag("ch");
-        recept2.setArany(45);
+        recept2.setArany(35);
         recept2.setKategoria("reggeli");
 
         Recept recept3 = new Recept();
         recept3.setReceptnev("teszt");
         recept3.setAlapanyag("fat");
-        recept3.setArany(25);
+        recept3.setArany(20);
         recept3.setKategoria("reggeli");
 
         receptRepository.save(recept1);

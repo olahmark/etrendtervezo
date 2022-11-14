@@ -1,6 +1,7 @@
 package webapp.etrendtervezo.businesslogic;
 
 
+
 import org.optaplanner.core.api.domain.solution.PlanningEntityProperty;
 import org.optaplanner.core.api.domain.solution.PlanningScore;
 import org.optaplanner.core.api.domain.solution.PlanningSolution;
@@ -8,6 +9,13 @@ import org.optaplanner.core.api.domain.solution.ProblemFactProperty;
 import org.optaplanner.core.api.domain.valuerange.ValueRangeProvider;
 import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScore;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.text.DecimalFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -16,7 +24,7 @@ import java.util.stream.Stream;
 public class EtkezesSolution {
 
 
-
+   
     @PlanningEntityProperty
     private EtkezesTervezet etkezesTervezet;
 
@@ -25,7 +33,9 @@ public class EtkezesSolution {
 
     @ValueRangeProvider(id = "aranyRange")
     @ProblemFactProperty
-    List<List<Double>> aranyLista = new ArrayList<>();
+    List<List<Double>> aranyLista = new LinkedList<>();
+
+
 
     public EtkezesSolution() {
     }
@@ -62,16 +72,20 @@ public class EtkezesSolution {
             System.out.println(" következő alapanyag");}*/
 
         // az egyes alapanyagok lehetséges mennyiségeit az összes kombinációban elállítom
-        List<List<Double>> aranyLista = new ArrayList<>();
+        List<List<Double>> aranyLista = new LinkedList<>();
+
 
         for (int i = 0; i < etkezesTervezet.getArany().size(); i++){
 
-            List<Double> sor = new ArrayList<>();
+            List<Double> sor = new LinkedList<>();
 
             for (int j = 0; j < 41; j++){
-                sor.add(j, aranyRangeTabla[i][j]);
+
+                BigDecimal bd = new BigDecimal(aranyRangeTabla[i][j]).setScale(2, RoundingMode.HALF_UP);
+                double newNum = bd.doubleValue();
+                sor.add(j, newNum);
                 //TESZTELÉSHEZ
-                System.out.print(String.format("%.2f", sor.get(j)) + ", ");
+                System.out.print(sor.get(j) + ", ");
             }
             System.out.println("következő kombináció");
             aranyLista.add(i, sor);
@@ -82,7 +96,8 @@ public class EtkezesSolution {
         }
 
         this.aranyLista = CartesianProductUtil.cartesianProduct(aranyLista);
-            System.out.println(aranyLista);
+            System.out.println("kartezsi: " + this.aranyLista);
+
     }
 
 

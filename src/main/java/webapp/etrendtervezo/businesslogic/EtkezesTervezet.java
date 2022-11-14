@@ -97,6 +97,17 @@ public class EtkezesTervezet {
                     + "szenhidrat: " + alapanyagadatok.get(i).getSzenhidrat());
             System.out.println(kaloriacel);
         }
+        System.out.println("feherjetartalom:" + this.feherjetartalom());
+        System.out.println("feherjemin: " + this.feherjemin());
+        System.out.println("feherjemax: " + this.feherjemax());
+        System.out.println("zsirtartalom:" + this.zsirtartalom());
+        System.out.println("zsirmin: " + this.zsirmin());
+        System.out.println("zsirmax: " + this.zsirmax());
+        System.out.println("chtartalom:" + this.szenhidrattartalom());
+        System.out.println("chmin: " + this.szenhidratmin());
+        System.out.println("chmax: " + this.szenhidratmax());
+        System.out.println("kaloriacel: " + this.kaloriacel);
+        System.out.println("kaloriatartalom: " + this.kaloriatartalom());
     }
 
     // mértékegység g

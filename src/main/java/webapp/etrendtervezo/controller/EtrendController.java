@@ -14,6 +14,8 @@ import webapp.etrendtervezo.dto.ReceptDTO;
 import webapp.etrendtervezo.service.AlapanyagService;
 import webapp.etrendtervezo.service.ReceptService;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
@@ -39,8 +41,14 @@ public class EtrendController {
     }
 
     @RequestMapping(path = "/receptek", method = RequestMethod.POST)
-    public ResponseEntity<ReceptDTO> create(ReceptDTO receptDTO){
-        ReceptDTO savedRecept = receptService.create(receptDTO);
+    public ResponseEntity<List<ReceptDTO>>create(@RequestBody List<ReceptDTO> receptDTO){
+
+        List<ReceptDTO> savedRecept = new LinkedList<ReceptDTO>();
+
+        for (ReceptDTO sor : receptDTO){
+        ReceptDTO savedsor = receptService.create(sor);
+        savedRecept.add(sor);
+        }
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(savedRecept);
     }
@@ -82,6 +90,7 @@ public class EtrendController {
         try {
             // Wait until the solving ends
             solution = solverJob.getFinalBestSolution();
+
         } catch (InterruptedException | ExecutionException e) {
             throw new IllegalStateException("Solving failed.", e);
         }

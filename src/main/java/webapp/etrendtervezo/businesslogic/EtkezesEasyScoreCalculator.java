@@ -6,32 +6,42 @@ import org.optaplanner.core.api.score.calculator.EasyScoreCalculator;
 
 public class EtkezesEasyScoreCalculator implements EasyScoreCalculator<EtkezesSolution, HardSoftScore> {
 
-    public boolean teszt () {System.out.println("fut a score"); return false;}
+    //int i =0;
+    //private boolean teszt (int i) {System.out.println("fut a score" + i); return false; }
 
     @Override
     public HardSoftScore calculateScore(EtkezesSolution etkezesSolution) {
 
         EtkezesTervezet etkezesTervezet = etkezesSolution.getEtkezesTervezet();
         int hardScore = 0;
+        int softScore = 0;
 
+        if (etkezesTervezet.feherjetartalom() < etkezesTervezet.feherjemin())
+            softScore--;
 
+         if (etkezesTervezet.feherjetartalom() > etkezesTervezet.feherjemax())
+            softScore--;
 
-        if ( teszt() ||
-                etkezesTervezet.feherjetartalom() < etkezesTervezet.feherjemin() ||
-            etkezesTervezet.feherjetartalom() > etkezesTervezet.feherjemax() ||
+        if (etkezesTervezet.zsirtartalom() < etkezesTervezet.zsirmin())
+            softScore--;
 
-                etkezesTervezet.zsirtartalom() < etkezesTervezet.zsirmin() ||
-                etkezesTervezet.zsirtartalom() > etkezesTervezet.zsirmax() ||
+        if(etkezesTervezet.zsirtartalom() > etkezesTervezet.zsirmax())
+            softScore--;
 
-                etkezesTervezet.szenhidrattartalom() < etkezesTervezet.szenhidratmin() ||
-                etkezesTervezet.szenhidrattartalom() > etkezesTervezet.szenhidratmax() ||
+        if (etkezesTervezet.szenhidrattartalom() < etkezesTervezet.szenhidratmin())
+            softScore--;
 
-                etkezesTervezet.kaloriatartalom() < etkezesTervezet.getKaloriacel()*0.95 ||
-                etkezesTervezet.kaloriatartalom() > etkezesTervezet.getKaloriacel()*1.05
-            )
+        if (etkezesTervezet.szenhidrattartalom() > etkezesTervezet.szenhidratmax())
+            softScore--;
+
+        if (etkezesTervezet.kaloriatartalom() < etkezesTervezet.getKaloriacel()*0.95)
             hardScore--;
 
-        int softScore = 0;
+        if( etkezesTervezet.kaloriatartalom() > etkezesTervezet.getKaloriacel()*1.05)
+            hardScore--;
+
+       // i++;
+
         return HardSoftScore.of(hardScore, softScore);
     }
 }
